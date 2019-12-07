@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+  <meta charset="utf-8">
+  <title>NBA Simulation</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+</head>
+<style>
+  .navbar {
+    background-color: whitesmoke;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    color: black;
+    width: 100%;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+  }
+ 
+  /* Change the color of links on hover */
+  .navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  ul {
+    list-style-type: none;
+    margin: 5;
+    padding: 5;
+    overflow: hidden;
+    background-color: whitesmoke;
+  }
+  li {
+    float: left;
+  }
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 25;
+  }
+  li a:hover {
+    background-color: darkgrey;
+  }
+  .active {
+    background-color: lightblue;
+  }
+   table{
+      color: lightblue;
+  }
+  th, td {
+  padding: 15px;
+  }
+  
+  body {
+    background-color:lightsalmon;
+  }
+  
+</style>
+
+<body>
+  <div id="app">
+    <h1>Player 1: Create your team (Point Guard first: 1 player from each position)</h1>
+    <h2>Point Guard</h2>
+    <button @click="pg1='Lebron James', selectPG()">Lebron James</button>
+    <button @click="pg1='Kemba Walker', selectPG()">Kemba Walker</button>
+    <button @click="pg1='Steph Curry', selectPG()">Steph Curry</button>
+    <button @click="pg1='Kyle Lowry', selectPG()">Kyle Lowry</button>
+    <h2>Shooting Guard</h2>
+    <button @click="sg1='Danny Green', selectSG()">Danny Green</button>
+    <button @click="sg1='Marcus Smart', selectSG()">Marcus Smart</button>
+    <button @click="sg1='Klay Thompson', selectSG()">Klay Thompson</button>
+    <button @click="sg1='Norman Powell', selectSG()">Norman Powell</button>
+    <h2>Power Forward</h2>
+    <button @click="pf1='Anthony Davis', selectPF()">Anthony Davis</button>
+    <button @click="pf1='Jayson Tatum', selectPF()">Jayson Tatum</button>
+    <button @click="pf1='Draymond Green', selectPF()">Draymond Green</button>
+    <button @click="pf1='Serge Ibaka', selectPF()">Serge Ibaka</button>
+    <h2>Small Forward</h2>
+    <button @click="sf1='Kyle Kuzma', selectSF()">Kyle Kuzma</button>
+    <button @click="sf1='Jaylen Brown', selectSF()">Jaylen Brown</button>
+    <button @click="sf1='D\'Angelo Russell', selectSF()">D'Angelo Russell</button>
+    <button @click="sf1='Pascal Siakam', selectSF()">Pascal Siakam</button>
+    <h2>Center</h2>
+    <button @click="c1='DeMarcus Cousins', selectC()">DeMarcus Cousins</button>
+    <button @click="c1='Enes Kantar', selectC()">Enes Kantar</button>
+    <button @click="c1='Willie Cauley-Stein', selectC()">Willie Cauley-Stein</button>
+    <button @click="c1='Marc Gasol', selectC()">Marc Gasol</button>
+    
+    <h1>Player 2: Create your team(Point Guard first: 1 player from each position)</h1>
+    <h2>Point Guard</h2>
+    <button @click="pg1='Lebron James', selectPG1()">Lebron James</button>
+    <button @click="pg1='Kemba Walker', selectPG1()">Kemba Walker</button>
+    <button @click="pg1='Steph Curry', selectPG1()">Steph Curry</button>
+    <button @click="pg1='Kyle Lowry', selectPG1()">Kyle Lowry</button>
+    <h2>Shooting Guard</h2>
+    <button @click="sg1='Danny Green', selectSG1()">Danny Green</button>
+    <button @click="sg1='Marcus Smart', selectSG1()">Marcus Smart</button>
+    <button @click="sg1='Klay Thompson', selectSG1()">Klay Thompson</button>
+    <button @click="sg1='Norman Powell', selectSG1()">Norman Powell</button>
+    <h2>Power Forward</h2>
+    <button @click="pf1='Anthony Davis', selectPF1()">Anthony Davis</button>
+    <button @click="pf1='Jayson Tatum', selectPF1()">Jayson Tatum</button>
+    <button @click="pf1='Draymond Green', selectPF1()">Draymond Green</button>
+    <button @click="pf1='Serge Ibaka', selectPF1()">Serge Ibaka</button>
+    <h2>Small Forward</h2>
+    <button @click="sf1='Kyle Kuzma', selectSF1()">Kyle Kuzma</button>
+    <button @click="sf1='Jaylen Brown', selectSF1()">Jaylen Brown</button>
+    <button @click="sf1='D\'Angelo Russell', selectSF1()">D'Angelo Russell</button>
+    <button @click="sf1='Pascal Siakam', selectSF1()">Pascal Siakam</button>
+    <h2>Center</h2>
+    <button @click="c1='DeMarcus Cousins', selectC1()">DeMarcus Cousins</button>
+    <button @click="c1='Enes Kantar', selectC1()">Enes Kantar</button>
+    <button @click="c1='Willie Cauley-Stein', selectC1()">Willie Cauley-Stein</button>
+    <button @click="c1='Marc Gasol', selectC1()">Marc Gasol</button>
+    <h1>Simulate Game</h1>
+    <button @click="compareTeams()">SIMULATE GAME</button>
+    
+      <div v-if="simComplete">
+        <h1>Simulated Game Results:</h1>
+        <h2>{{ pg1 }} vs. {{ pg2 }}</h2>
+        <p>{{ pgWinner }}</p>
+        <h2>{{ sg1 }} vs. {{ sg2 }}</h2>
+        <p>{{ sgWinner }}</p>
+        <h2>{{ pf1 }} vs. {{ pf2 }}</h2>
+        <p>{{ pfWinner }}</p>
+        <h2>{{ sf1 }} vs. {{ sf2 }}</h2>
+        <p>{{ sfWinner }}</p>
+        <h2>{{ c1 }} vs. {{ c2 }}</h2>
+        <p>{{ cWinner }} </p>
+        <h2> {{ gamewinner }} </h2>
+      </div>
+    </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.2/dist/vue.js"></script>
+  <script src="javascripts/scripts.js"></script>
+</body>
+<div class="navbar">
+    Link to GitHub Repository:
+    <a href="https://github.com/WhatAmIFighting4/NodeCreativeProject"> CLICK HERE  </a>
+  </div>
+</html>
